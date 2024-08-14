@@ -1,10 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import redirect, render
+
 from django.shortcuts import HttpResponse
 from django.contrib import messages
 from . import models
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
+
 import bcrypt
 import re
 
@@ -17,6 +19,20 @@ def success(request):
     
 def index(request):
     return render(request,"login.html")
+
+
+def create_user(fname, lname, email, passwd):
+    salt = bcrypt.gensalt()
+    enc_pass = bcrypt.hashpw(passwd.encode(), salt).decode()
+    new_user = models.Users.objects.create(
+        first_name=fname,
+        last_name=lname,
+        email=email,
+        password=enc_pass
+    )
+    return new_user
+
+
 
 def create_user(fname, lname, email, phone, passwd):
     salt = bcrypt.gensalt()
@@ -56,6 +72,17 @@ def register(request):
             request.session['email'] = user.last_namerequest.session['first_name'] = user.first_name
             print('Created4')
 
+            first_name1 = request.POST['first_name']
+            last_name1 = request.POST['last_name']
+            email1 = request.POST['email']
+            password = request.POST['password']
+            
+            user = create_user(first_name1, last_name1, email1, password)
+            print('Created3')
+            request.session['first_name'] = user.first_name
+            request.session['last_name'] = user.last_name
+            print('Created4')
+
     return render(request, 'register.html')
 
 def login(request):
@@ -69,6 +96,14 @@ def login(request):
                 'lname': user.last_name,
                 'email': user.email
             }
+=======
+        email = request.POST['email']
+        password = request.POST['password']
+        user = models.Users.objects.filter(email=email).first()
+        if user and bcrypt.checkpw(password.encode(), user.password.encode()):
+            request.session['first_name'] = user.first_name
+            request.session['last_name'] = user.last_name
+>>>>>>> main
             return redirect('/zo/success')
         else:
             messages.error(request, "Invalid email or password.")
@@ -84,5 +119,12 @@ def Success1(request):
     context = {
         'fname': request.session['fname'],
         'lname': request.session['lname'],
+
+    if 'first_name' not in request.session:
+        return redirect('/zo/login')
+    
+    context = {
+        'first_name': request.session['first_name'],
+        'last_name': request.session['last_name'],
     }
     return render(request, "success.html", context)
