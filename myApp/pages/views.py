@@ -8,30 +8,6 @@ from django.contrib.auth.hashers import make_password
 from django.shortcuts import render, redirect
 import bcrypt
 import re
-def index(request):
-    return HttpResponse("This is same to BasePage")
-def bzu(request):
-    return HttpResponse("This is same to BZU")
-def second_method(request):
-    return redirect("/zo/redirected_route")
-def redirected_method(request):
-    return JsonResponse({"Name": "Zooooo", "status": True})
-def zooo(request):
-    context = {
-        "Student": "Bakr",
-        "frameworks": "Django",
-        "courses": ["C", "Java", "Python","C#", "Python","jave scripting"]
-    }
-    return render(request, "index.html",context)
-def add_user(request):
-    first_name_from_form = request.POST['fname']
-    last_name_from_form = request.POST['lname']
-    context = {
-        "first_name" : first_name_from_form,
-        "last_name" : last_name_from_form
-    }
-    request.session['user'] = context
-    return redirect("/zo/success")
 
 def success(request):
     if 'user' in request.session:
