@@ -39,7 +39,7 @@ def register(request):
         if len(errors) > 0:
             for key, value in errors.items():
                 messages.error(request, value)
-            return redirect('/zo/register')
+            return redirect('/pages//register')
         else:
             first_name1 = request.POST['fname']
             last_name1 = request.POST['lname']
@@ -49,7 +49,7 @@ def register(request):
             password_confirmation=request.Post['password_confirmation']
             if password != password_confirmation:
                 messages.error(request, "Passwords do not match.")
-                return redirect('/zo/register')
+                return redirect('/pages//register')
 
             
             user = create_user(first_name1, last_name1,phone, email1, password,password_confirmation)
@@ -59,7 +59,7 @@ def register(request):
             request.session['email'] = user.last_namerequest.session['first_name'] = user.first_name
             print('Created4')
 
-    return render(request, 'register.html')
+    return render(request, 'pages/register.html')
 
 def login(request):
     if request.method == "POST":
@@ -72,12 +72,12 @@ def login(request):
                 'lname': user.last_name,
                 'email': user.email
             }
-            return redirect('/zo/success')
+            return redirect('pages/success')
         else:
             messages.error(request, "Invalid email or password.")
-            return redirect('/zo/login')
+            return redirect('pages/login')
     
-    return render(request, 'login.html')
+    return render(request, 'pages/login.html')
 
 
 def Success1(request):

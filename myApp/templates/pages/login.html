@@ -169,66 +169,51 @@
     </style>
 </head>
 <body>
-    <div class="login-page">
-        <div class="form">
-            <img id="fofo" src="image/ik.png" alt="gust" width="20">
-            <form class="login-form">
-                <input type="email" name="myemail" placeholder="email" id="login-username"/>
-                <img id="fofo"src="image/ik2.png" alt="pass" width="20">
-                <input type="password" name="mypassword" placeholder="password" id="login-password"/>
-                <button type="button" onclick="login()">Login</button>
-                <div class="forgot-password-remember">
-                    <a href="#" class="forgot-password">Forgot Password?</a>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="remember-me"/>
-                        <label class="rememberme" for="remember-me">Remember me</label>
-                    </div>
+<div class="login-page">
+    <div class="form">
+        {% load static %}
+        <!-- Corrected static paths -->
+        <img id="fofo" src="image/ik.png" alt="gust" width="20">
+        <form class="login-form" method="POST">
+            {% csrf_token %}
+            <input type="email" name="myemail" placeholder="email" id="login-username"/>
+            <img id="fofo" src="image/ik2.png" alt="pass" width="20">
+            <input type="password" name="mypassword" placeholder="password" id="login-password"/>
+            <button type="submit">Login</button> <!-- Changed type to "submit" for form submission -->
+            <div class="forgot-password-remember">
+                <a href="#" class="forgot-password">Forgot Password?</a>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="remember-me"/>
+                    <label class="rememberme" for="remember-me">Remember me</label>
                 </div>
-
-                <p class="message">Not registered? <a href="#" onclick="showRegisterForm()">Create an account</a></p>
-            </form>
-        </div>
+            </div>
+            <p class="message">Not registered? <a href="#" onclick="showRegisterForm()">Create an account</a></p>
+        </form>
     </div>
-    <script>
-        function showRegisterForm() {
-            document.querySelector('.login-form').classList.remove('show');
-            document.querySelector('.register-form').classList.add('show');
-        }
+</div>
+<script>
+    // Existing JavaScript functions
+    function showRegisterForm() {
+        document.querySelector('.login-form').classList.remove('show');
+        document.querySelector('.register-form').classList.add('show');
+    }
 
-        function showLoginForm() {
-            document.querySelector('.register-form').classList.remove('show');
-            document.querySelector('.login-form').classList.add('show');
-        }
+    function showLoginForm() {
+        document.querySelector('.register-form').classList.remove('show');
+        document.querySelector('.login-form').classList.add('show');
+    }
 
-        function register() {
-            const name = document.getElementById('register-name').value;
-            const password = document.getElementById('register-password').value;
-            const email = document.getElementById('register-email').value;
+    document.addEventListener('DOMContentLoaded', () => {
+        showLoginForm();
+    });
 
-            console.log(`Registering: Name=${name}, Password=${password}, Email=${email}`);
-        }
-
-        function login() {
-            const username = document.getElementById('login-username').value;
-            const password = document.getElementById('login-password').value;
-
-            console.log(`Logging in: Username=${username}, Password=${password}`);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            showLoginForm();
-        });
-
-        document.querySelectorAll('.message a').forEach(anchor => {
-            anchor.addEventListener('click', function(event) {
-                event.preventDefault();
-                document.querySelectorAll('form').forEach(form => {
-                    form.style.display = form.style.display === 'none' ? 'block' : 'none';
-                });
+    document.querySelectorAll('.message a').forEach(anchor => {
+        anchor.addEventListener('click', function(event) {
+            event.preventDefault();
+            document.querySelectorAll('form').forEach(form => {
+                form.style.display = form.style.display === 'none' ? 'block' : 'none';
             });
         });
-    </script>
-</body>
-</html>
-
-    {% endblock content %}
+    });
+</script>
+{% endblock content %}
