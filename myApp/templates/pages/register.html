@@ -1,7 +1,6 @@
 {% extends 'base.html'%}
 
 {% block content %}
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -64,6 +63,8 @@
 <body>
     <form class="jotform-form" action=" " method="post" name="form_242265224338454" id="242265224338454"
         accept-charset="utf-8" autocomplete="on">
+        {% csrf_token %}
+
         <input type="hidden" name="formID" value="242265224338454" />
         <div role="main" class="form-all">
             <ul class="form-section page-section">
@@ -156,7 +157,8 @@
                 <li class="form-line" data-type="control_text" id="id_26">
                     <div id="cid_26" class="form-input-wide" data-layout="full">
                         <p style="text-align: center;">
-                            <a href="your-login-page-url" style="color: #2116f4;">Do you have an account?</a>
+
+                            <a href="login" style="color: #2116f4;">Do you have an account?</a>
                         </p>
                     </div>
                 </li>
