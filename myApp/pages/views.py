@@ -77,7 +77,8 @@ def login(request):
             messages.error(request, "Invalid email or password.")
             return redirect('pages/login')
     
-    return render(request, 'pages/login.html')
+
+
 
 
 def Success1(request):
